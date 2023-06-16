@@ -1,0 +1,10 @@
+apiVersion: v2
+name: testchart
+version: 1.0.0
+description: A Helm chart for deploying my application in Minikube
+keywords:
+  - helm
+  - minikube
+maintainers:
+  - name: anshuman
+    email: anshu@gmail.com

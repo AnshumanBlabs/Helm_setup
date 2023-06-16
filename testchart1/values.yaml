@@ -1,0 +1,38 @@
+replicaCount: 5
+
+image:
+  repository: anshuman01/test-image
+  tag: latest
+  pullPolicy: IfNotPresent
+
+resources:
+  limits:
+    cpu: 500m
+  requests:
+    cpu: 200m
+
+
+
+readinessProbe:
+  httpGet:
+    path: /health
+    port: 3000
+  initialDelaySeconds: 5
+  periodSeconds: 10
+
+livenessProbe:
+  httpGet:
+    path: /health
+    port: 3000
+  initialDelaySeconds: 15
+  periodSeconds: 20
+
+service:
+  enabled: true
+  type: LoadBalancer
+  ports:
+    - name: http
+      port: 82
+      targetPort: 3000
+  selector:
+    app: testweb-app1
