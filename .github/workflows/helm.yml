@@ -37,6 +37,7 @@ jobs:
         run: |
           curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
 
+
       - name: Deploy Helm chart
         run: |
           helm upgrade ${{ env.RELEASE_NAME }} ${{ env.HELM_CHART_PATH }}
