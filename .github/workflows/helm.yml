@@ -9,7 +9,7 @@ env:
   DOCKERHUB_USERNAME: anshuman01
   DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
   DOCKER_IMAGE_NAME: test-image
-  HELM_CHART_PATH: /home/anshuman/helm/testchart1
+  HELM_CHART_PATH: /home/anshuman
   RELEASE_NAME: mytest
 
 jobs:
