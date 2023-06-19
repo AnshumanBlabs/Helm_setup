@@ -8,7 +8,7 @@ on:
 env:
   DOCKERHUB_USERNAME: anshuman01
   DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
-  DOCKER_IMAGE_NAME: anshuman01/test-image
+  DOCKER_IMAGE_NAME: test-image
   HELM_CHART_PATH: /home/anshuman/helm
   RELEASE_NAME: mytest
 
