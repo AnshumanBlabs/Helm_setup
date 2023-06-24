@@ -35,19 +35,15 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}:latest
 
-      - name: Install Helm
-        run: |
-          curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
-
-      - name: Deploy Helm chart
-        run: |
-          helm upgrade ${{ env.RELEASE_NAME }} ${{ env.HELM_CHART_PATH }}
-
       - name: Install SSH key
         uses: webfactory/ssh-agent@v0.5.1
         with:
           ssh-private-key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
 
+      - name: Copy Helm chart to EC2
+        run: |
+          scp -o StrictHostKeyChecking=no -i "$SSH_PRIVATE_KEY" -r ${{ env.HELM_CHART_PATH }} ${EC2_USERNAME}@${EC2_HOST}:~/helm-chart
+
       - name: Deploy Helm chart on EC2
         run: |
-          ssh -o StrictHostKeyChecking=no -i "$SSH_PRIVATE_KEY" ${EC2_USERNAME}@${EC2_HOST} 'helm upgrade $RELEASE_NAME $HELM_CHART_PATH'
+          ssh -o StrictHostKeyChecking=no -i "$SSH_PRIVATE_KEY" ${EC2_USERNAME}@${EC2_HOST} "helm upgrade $RELEASE_NAME ~/helm-chart"
