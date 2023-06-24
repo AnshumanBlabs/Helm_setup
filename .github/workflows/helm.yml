@@ -3,7 +3,7 @@ name: HelmChart Build and Deploy
 on:
   push:
     branches:
-      - main
+      - helm-01
 
 env:
 #   DOCKERHUB_USERNAME: anshuman01
