@@ -1,4 +1,4 @@
-name: helmchart Build and Deploy
+name: Build and Deploy
 
 on:
   push:
@@ -7,10 +7,12 @@ on:
 
 env:
   DOCKERHUB_USERNAME: anshuman01
-  DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
   DOCKER_IMAGE_NAME: test-image
   HELM_CHART_PATH: ./testchart1
-  RELEASE_NAME: mytest
+  RELEASE_NAME: devops-helm
+  EC2_HOST: 172-31-88-138
+  EC2_USERNAME: ubuntu
+  EC2_SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
 
 jobs:
   build-and-deploy:
@@ -33,12 +35,19 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}:latest
 
-#       - name: Install Helm
-#         run: |
-#           curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+      - name: Install Helm
+        run: |
+          curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
 
+      - name: Deploy Helm chart
+        run: |
+          helm upgrade ${{ env.RELEASE_NAME }} ${{ env.HELM_CHART_PATH }}
 
+      - name: Install SSH key
+        uses: webfactory/ssh-agent@v0.5.1
+        with:
+          ssh-private-key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
 
-#       - name: Deploy Helm chart
-#         run: |
-#           helm upgrade ${{ env.RELEASE_NAME }} ${{ env.HELM_CHART_PATH }}
+      - name: Deploy Helm chart on EC2
+        run: |
+          ssh -o StrictHostKeyChecking=no -i "$SSH_PRIVATE_KEY" ${EC2_USERNAME}@${EC2_HOST} 'helm upgrade $RELEASE_NAME $HELM_CHART_PATH'
