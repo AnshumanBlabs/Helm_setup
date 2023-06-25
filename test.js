@@ -13,7 +13,7 @@ const server = http.createServer(function (req, res) {
   } else if (req.url === "/ping") {
     console.log("In ping");
     res.writeHead(200, { "Content-Type": "text/html" });
-    res.write("pong1");
+    res.write("pong");
     res.end();
   } else res.end("Invalid Request!");
   
