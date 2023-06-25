@@ -4,7 +4,7 @@ const port = process.env.PORT || 3000;
 const server = http.createServer(function (req, res) {
   if (req.url === "/") {
     res.writeHead(200, { "Content-Type": "text/html" });
-    res.write("This is the test server1");
+    res.write("This is the test server");
     res.end();
   } else if (req.url === "/health") {
     res.writeHead(204);
