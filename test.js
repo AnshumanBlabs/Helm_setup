@@ -6,12 +6,12 @@ const server = http.createServer(function (req, res) {
     res.writeHead(200, { "Content-Type": "text/html" });
     res.write("This is the test server1");
     res.end();
-  } else if (req.url === "/health1") {
+  } else if (req.url === "/health") {
     res.writeHead(204);
     res.write("");
     res.end();
-  } else if (req.url === "/ping1") {
-    console.log("In ping1");
+  } else if (req.url === "/ping") {
+    console.log("In ping");
     res.writeHead(200, { "Content-Type": "text/html" });
     res.write("pong1");
     res.end();
